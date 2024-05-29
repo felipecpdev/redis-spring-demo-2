@@ -2,6 +2,7 @@ package org.felipecpdev.redisspringdemo2.controllers;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.felipecpdev.redisspringdemo2.exceptions.UserNotFoundException;
 import org.felipecpdev.redisspringdemo2.models.User;
 import org.felipecpdev.redisspringdemo2.service.UserService;
 import org.springframework.http.HttpStatus;
@@ -24,7 +25,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUser(@PathVariable String id) {
+    public ResponseEntity<User> getUser(@PathVariable String id) throws UserNotFoundException {
         return new ResponseEntity<>(userService.getUser(id), HttpStatus.OK);
     }
 
@@ -34,13 +35,13 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<User> deleteUser(@PathVariable String id) {
+    public ResponseEntity<User> deleteUser(@PathVariable String id) throws UserNotFoundException {
         userService.deleteUser(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @PostMapping("/update/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable String id, @RequestBody User user) {
+    public ResponseEntity<User> updateUser(@PathVariable String id, @RequestBody User user) throws UserNotFoundException {
         return new ResponseEntity<>(userService.updateUser(user, id), HttpStatus.OK);
     }
 
